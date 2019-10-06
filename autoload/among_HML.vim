@@ -15,6 +15,7 @@ if has('nvim')
   " TODO: keep in visual mode without <Cmd>.
   xnoremap <silent> <Plug>(among_HML:one-quarter)   <Cmd>call among_HML#do(25)<cr>
   xnoremap <silent> <Plug>(among_HML:three-quarter) <Cmd>call among_HML#do(75)<cr>
+else
   "xnoremap <expr><silent> <Plug>(among_HML:one-quarter)   among_HML#do(25)<cr>
   "xnoremap <expr><silent> <Plug>(among_HML:three-quarter) among_HML#do(75)<cr>
 endif
