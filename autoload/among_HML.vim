@@ -10,6 +10,11 @@ set cpo&vim
 "}}}
 
 function! among_HML#do(percentage) abort range "{{{
+  if 0 <= a:percentage && a:percentage <= 100
+  else
+    throw 'Argument must be between 0 to 100.'
+  endif
+
   norm! L
   let l:cent = winline()
   while winline() > a:percentage * l:cent /100
@@ -50,8 +55,8 @@ endif
 if exists('g:among_HML_keep_maps_normal') "{{{1
   augroup among_HML_keep_nmaps
     au!
-    au BufWinEnter * silent! exe 'nmap <buffer> gK       '. substitute(execute('nmap <buffer> K'), '\v.+K', '', '')
-    au BufWinEnter * silent! exe 'nmap <buffer> <space>J '. substitute(execute('nmap <buffer> J'), '\v.+J', '', '')
+    "au BufWinEnter * silent! exe 'nmap <buffer> gK       '. substitute(execute('nmap <buffer> K'), '\v.+K', '', '')
+    "au BufWinEnter * silent! exe 'nmap <buffer> <space>J '. substitute(execute('nmap <buffer> J'), '\v.+J', '', '')
 
     au BufWinEnter * silent! nunmap <buffer> K
     au BufWinEnter * silent! nunmap <buffer> J
@@ -61,8 +66,8 @@ endif
 if exists('g:among_HML_keep_maps_visual') "{{{1
   augroup among_HML_keep_xmaps
     au!
-    au BufWinEnter * silent! exe 'xmap <buffer> gK       '. substitute(execute('xmap <buffer> K'), '\v.+K', '', '')
-    au BufWinEnter * silent! exe 'xmap <buffer> <space>J '. substitute(execute('xmap <buffer> J'), '\v.+J', '', '')
+    "au BufWinEnter * silent! exe 'xmap <buffer> gK       '. substitute(execute('xmap <buffer> K'), '\v.+K', '', '')
+    "au BufWinEnter * silent! exe 'xmap <buffer> <space>J '. substitute(execute('xmap <buffer> J'), '\v.+J', '', '')
 
     au BufWinEnter * silent! xunmap <buffer> K
     au BufWinEnter * silent! xunmap <buffer> J
@@ -72,4 +77,4 @@ endif
 " restore cpoptions {{{1
 let &cpo = s:save_cpo
 unlet s:save_cpo
-" vim: ts=2 sts=2 sw=2 et fdm=marker"
+" vim: ts=2 sts=2 sw=2 et fdm=marker
