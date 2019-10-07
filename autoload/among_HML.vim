@@ -1,4 +1,4 @@
-function! among_HML#do(percentage) abort
+function! among_HML#do(percentage) abort range
   norm! L
   let l:cent = winline()
   while winline() > a:percentage * l:cent /100
@@ -28,10 +28,32 @@ nmap J <Plug>(among_HML:three-quarter)
 nnoremap <space>J J
 nnoremap gK K
 
+if exists('g:among_HML_keep_maps_normal')
+  augroup among_HML_keep_nmaps
+    au!
+    au BufWinEnter * silent! exe 'nmap <buffer> gK       '. substitute(execute('nmap <buffer> K'), '\v.+K', '', '')
+    au BufWinEnter * silent! exe 'nmap <buffer> <space>J '. substitute(execute('nmap <buffer> J'), '\v.+J', '', '')
+
+    au BufWinEnter * silent! nunmap <buffer> K
+    au BufWinEnter * silent! nunmap <buffer> J
+  augroup END
+endif
+
 if has('nvim')
   xmap K <Plug>(among_HML:one-quarter)
   xmap J <Plug>(among_HML:three-quarter)
 
-  xnoremap <space>J J
   xnoremap gK K
+  xnoremap <space>J J
+endif
+
+if exists('g:among_HML_keep_maps_visual')
+  augroup among_HML_keep_xmaps
+    au!
+    au BufWinEnter * silent! exe 'xmap <buffer> gK       '. substitute(execute('xmap <buffer> K'), '\v.+K', '', '')
+    au BufWinEnter * silent! exe 'xmap <buffer> <space>J '. substitute(execute('xmap <buffer> J'), '\v.+J', '', '')
+
+    au BufWinEnter * silent! xunmap <buffer> K
+    au BufWinEnter * silent! xunmap <buffer> J
+  augroup END
 endif
