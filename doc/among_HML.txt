@@ -1,0 +1,65 @@
+*among_HML.txt*
+*among_HML* *among-HML* *amongHML*
+
+Author: kaile256 <kaile256acc at gmail.com>
+License: MIT license
+
+==============================================================================
+CONTENTS			*among_HML-contents*
+
+Introduction			|among_HML-introduction|
+Usage					|among_HML-usage|
+	function			|among_HML-function|
+Example					|among_HML-example|
+
+==============================================================================
+INSTALL					|among_HML-install|
+
+*among_HML* provides a function to extend cursor-motions: H/M/L.
+
+==============================================================================
+USAGE						|among_HML-usage|
+
+------------------------------------------------------------------------------
+function					|among_HML-function|
+
+among_HML#percent({expr})				*among_HML-among_HML#percent()*
+					Move to the line equal to {expr} percentage of lines between
+					0 to 100.
+
+==============================================================================
+EXAMPLE						|among_HML-example|
+
+Assign a percentage as you want between 0 and 100, like below:
+>
+	:call among_HML#percent(12.5) " for 1/8 height of lines
+
+>
+vim-among_HML defines no default keymappings,
+so you should define some keymappings, like the examples below,
+in your vimrc or init.vim.
+
+>
+	" if you prefer to jump in 1/4 or 3/4 height of lines (i.e., 25% or 75% height);
+	nnoremap <silent> K :<c-u>call among_HML#percent(25)<cr>
+	nnoremap <silent> J :<c-u>call among_HML#percent(75)<cr>
+
+	onoremap <silent> K :call among_HML#percent(25)<cr>
+	onoremap <silent> J :call among_HML#percent(75)<cr>
+
+	" optional:
+	" Mnemonic: Get the Keyword
+	nnoremap gK K
+	" Mnemonic: <space>-leaving Join
+	nnoremap <space>J J
+>
+
+If you use `neovim >= 0.3.0`,
+>
+	xnoremap <silent> K <Cmd>call among_HML#percent(25)<cr>
+	xnoremap <silent> J <Cmd>call among_HML#percent(75)<cr>
+	xnoremap gK K
+	xnoremap <space>J J
+>
+==============================================================================
+vim:tw=78:ts=4:sts=4:sw=4:ft=help:norl:noet:fen
