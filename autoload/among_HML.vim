@@ -8,22 +8,20 @@
 let s:save_cpo = &cpo
 set cpo&vim
 "}}}
-
-function! among_HML#_jump() abort range
-  norm! L
-  let l:last = winline()
-  while winline() > float2nr(round(s:percentage * l:last /100.0))
-    norm! gk
-  endwhile
-endfunction
+if exists('g:loaded_among_HML') | finish | endif
+let g:loaded_among_HML = 1
 
 function! among_HML#percent(percentage) abort range
   if 0 <= a:percentage && a:percentage <= 100
   else
     throw 'Argument must be between 0 to 100.'
   endif
-  let s:percentage = a:percentage
-  call among_HML#_jump()
+
+  norm! L
+  let l:wanted = float2nr(round(winline() * a:percentage /100.0))
+  while winline() > l:wanted
+    norm! gk
+  endwhile
 endfunction
 
 " restore cpoptions {{{1
