@@ -14,7 +14,7 @@ let g:loaded_among_HML = 1
 function! among_HML#percent(percentage) abort range
   if 0 <= a:percentage && a:percentage <= 100
   else
-    throw 'Argument must be between 0 to 100.'
+    throw 'Argument must be between 0 and 100.'
   endif
 
   norm! L
