@@ -25,7 +25,8 @@ function! among_HML#percent(percentage) abort range
   endwhile
 endfunction
 
-" restore cpoptions {{{1
+" restore cpoptions {{{
 let &cpo = s:save_cpo
 unlet s:save_cpo
+"}}}
 " vim: ts=2 sts=2 sw=2 et fdm=marker
