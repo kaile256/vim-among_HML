@@ -12,7 +12,6 @@ set cpo&vim
 function! among_HML#_jump() abort range
   norm! L
   let l:last = winline()
-  " it works higher than 6 line window.
   while winline() > float2nr(round(s:percentage * l:last /100.0))
     norm! gk
   endwhile
