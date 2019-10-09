@@ -4,13 +4,13 @@
 " License: MIT License
 " ============================================================================
 
+if exists('g:loaded_among_HML') | finish | endif
+let g:loaded_among_HML = 1
+
 " save cpoptions {{{
 let s:save_cpo = &cpo
 set cpo&vim
 "}}}
-
-if exists('g:loaded_among_HML') | finish | endif
-let g:loaded_among_HML = 1
 
 function! among_HML#percent(percentage) abort range
   if 0 <= a:percentage && a:percentage <= 100
