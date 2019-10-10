@@ -1,7 +1,7 @@
 *among_HML.txt*
 *among-HML* *amongHML*
 
-Version: 1.0
+Version: 1.0.1
 Author: kaile256 <kaile256acc at gmail.com>
 License: MIT license
 
@@ -25,12 +25,13 @@ USAGE						*among_HML-usage*
 FUNCTION					*among_HML-function*
 
 among_HML#percent({expr})				*among_HML-among_HML#percent()*
-					Move to the line equal to {expr} percentage of lines. {expr} must be a |Float| or a Number between 0 to 100.
+					Move to the line equal to {expr} percentage of lines. {expr} must be a |Float| or a Number.
+					The cursor will keep within the window even when {expr} is a negative or more than 100.
 
 ==============================================================================
 EXAMPLE						*among_HML-example*
 
-Assign a percentage as you want between 0 and 100, like below:
+Assign a percentage as you want, like below:
 >
 	:call among_HML#percent(12.5) " for 1/8 height of lines
 

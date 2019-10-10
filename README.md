@@ -24,7 +24,7 @@ Usage
 -----
 
 ```vim
-" assign a percentage as you want between 0 and 100, like below
+" assign a percentage as you want, like below
 :call among_HML#percent(12.5) " for 1/8 height of lines
 ```
 
