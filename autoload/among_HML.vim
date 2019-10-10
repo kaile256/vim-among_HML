@@ -14,11 +14,6 @@ set cpo&vim
 "}}}
 
 function! among_HML#percent(percentage) abort range
-  if 0 <= a:percentage && a:percentage <= 100
-  else
-    throw 'Argument must be a number or float between 0 and 100.'
-  endif
-
   norm! L
   let l:wanted = float2nr(round(winline() * a:percentage /100.0))
   while winline() > l:wanted
