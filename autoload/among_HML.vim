@@ -4,7 +4,7 @@
 " License: MIT License
 " ============================================================================
 
-if !v:version > 700 && !has('nvim-0.3.0') | finish | endif
+if v:version < 740 && !has('nvim-0.3.0') | finish | endif
 if exists('g:loaded_among_HML') | finish | endif
 let g:loaded_among_HML = 1
 
