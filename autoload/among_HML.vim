@@ -4,7 +4,7 @@
 " License: MIT License
 " ============================================================================
 
-if v:version < 740 && !has('nvim-0.3.0') | finish | endif
+if v:version < 704 | finish | endif
 if exists('g:loaded_among_HML') | finish | endif
 let g:loaded_among_HML = 1
 
@@ -15,8 +15,8 @@ set cpo&vim
 
 function! among_HML#percent(percentage) abort range
   norm! L
-  let l:wanted = float2nr(round(winline() * a:percentage /100.0))
-  while winline() > l:wanted
+  let l:dest = float2nr(round(winline() * a:percentage /100.0))
+  while winline() > l:dest
     norm! gk
     if winline() == 1
       return
