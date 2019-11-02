@@ -4,7 +4,8 @@
 " License: MIT License
 " ============================================================================
 
-if v:version < 704 | finish | endif
+if !has('patch7.4.156') | finish | endif
+
 if exists('g:loaded_among_HML') | finish | endif
 let g:loaded_among_HML = 1
 
@@ -13,9 +14,10 @@ let s:save_cpo = &cpo
 set cpo&vim
 "}}}
 
-function! among_HML#percent(percentage) abort range
+function! among_HML#percent(percentage) abort
   norm! L
-  let l:dest = float2nr(round(winline() * a:percentage /100.0))
+  let l:dest = round(winline() * a:percentage /100.0)
+
   while winline() > l:dest
     norm! gk
     if winline() == 1
