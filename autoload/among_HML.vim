@@ -20,9 +20,8 @@ function! among_HML#percent(percentage) abort
 
   while winline() > l:dest
     norm! gk
-    if winline() == 1
-      return
-    endif
+
+    if winline() == 1 | return | endif
   endwhile
 endfunction
 
