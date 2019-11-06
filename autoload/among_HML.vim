@@ -4,7 +4,7 @@
 " License: MIT License
 " ============================================================================
 
-if !has('patch7.4.156') | finish | endif
+if v:version < 700 | finish | endif
 
 if exists('g:loaded_among_HML') | finish | endif
 let g:loaded_among_HML = 1
@@ -14,7 +14,7 @@ let s:save_cpo = &cpo
 set cpo&vim
 "}}}
 
-function! among_HML#percent(percentage) abort
+function! among_HML#percent(percentage)
   norm! L
   let l:dest = round(winline() * a:percentage /100.0)
 
