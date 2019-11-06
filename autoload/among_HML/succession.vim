@@ -74,42 +74,62 @@ function! s:Keymaps.save(lhs, mode) abort
   " Note: keep only among_HML#succession#initialize() call it to save keymappings
   let lhs = a:lhs
   let mode = a:mode
-  let maparg = maparg(lhs, mode, 0, 1)
-  if maparg.rhs =~# '<SID>'
-    let maparg.rhs = substitute(maparg.rhs, '<SID>', '<SNR>'. maparg.sid .'_', 'g')
+  let s:maps.saved[lhs] = maparg(lhs, mode, 0, 1)
+  let map = s:maps.saved[lhs]
+
+  if map.rhs =~# '<SID>'
+    let map.rhs = substitute(map.rhs, '<SID>', '<SNR>'. map.sid .'_', 'g')
   endif
-  let s:maps.saved = {lhs : {mode : maparg}}
+
+  " Note: if <buffer>, restore the <buffer>-map after all; if not, just unmap <buffer>.
+  if map.buffer == 0
+        \ || map.rhs == {}
+    let map = {lhs : {'restore': 0} }
+    return
+  endif
+
+  let args = '<buffer>'
+  for arg in ['silent', 'nowait', 'expr']
+    if map[arg] == 1
+      let args .= '<'. arg .'>'
+    endif
+  endfor
+
+  let map[lhs] = extend(map[lhs], {
+        \ 'restore': 1,
+        \ 'mode': mode,
+        \ 'lhs': args . lhs,
+        \ },
+        \ 'force')
 endfunction
 
 function! s:Keymaps.restore() abort
-    " Note: keep only among_HML#succession#abort() call it to restore keymappings
-  let index = ['silent', 'nowait', 'expr']
-  for lhs in s:maps.saved
+  " Note: keep only among_HML#succession#abort() call it to restore keymappings
+  for lhs in keys(s:maps.saved)
+    let map = s:maps.saved[lhs]
     for mode in s:maps.modes
-      let maparg = s:maps.saved[lhs][mode]
-      let rhs = maparg.rhs
-      if rhs == {}
+
+      if map.restore == 0
         exe mode .'unmap <buffer>' lhs
-      else
-        " Note: <buffer>
-        let args = ['<buffer>']
-        for arg in ['<silent>', '<nowait>', '<expr>']
-          let args = add(args, arg)
-        endfor
-        let args = join(args, '')
-        if maparg.noremap == 1
-          exe mode .'noremap ' args lhs rhs
-        else
-          exe mode .'map ' args lhs rhs
-        endif
+        break
       endif
+
+      let rhs = map.rhs
+      if map.noremap == 1
+        exe mode .'noremap' lhs rhs
+        break
+      else
+        exe mode .'map' lhs rhs
+        break
+      endif
+
     endfor
   endfor
 endfunction
 "}}}
 
-function! s:rotate.new() abort
-  let s:rotate[lhs] = function('among_HML#succession#_succeed', lhs)
+function! s:rotate.new(lhs) abort
+  let s:rotate[a:lhs] = function('among_HML#succession#_succeed', a:lhs)
 endfunction
 
 let s:char = {-> nr2char(getchar())}
