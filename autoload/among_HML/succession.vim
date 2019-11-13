@@ -28,46 +28,52 @@ let s:save_cpo = &cpo
 set cpo&vim
 "}}}
 
-if get(g:, 'among_HML_enable_succession', 0) | finish | endif
+if get(g:, 'among_HML#succession#disable', 0) | finish | endif
 
 let s:maps = {}
-let s:maps.combinations = get(g:, 'among_HML_succession_combinations', {})
+let s:origin_and_dict = get(g:, 'among_HML_succession_combinations', {
+      \ 0:   {'H': [25, 0]},
+      \ 100: {'L': [75, 0]},
+      \ })
 
-for percent in keys(s:maps.combinations)
-  let s:maps.combinations[percent] = get(s:maps.combinations, percent, {})
+for percent in keys(s:origin_and_dict)
+  let s:origin_and_dict[percent] = get(s:origin_and_dict, percent, {})
 endfor
 
-let s:counter = {}
+let s:counter = {} "{{{1
 
-function! s:counter() dict abort
-  if !exists('s:count')
-    return self.zero()
+function! s:counter.Update() abort "{{{2
+  if !exists('s:cnt') || s:counter.max()
+    let s:cnt = 0
+    return
   endif
 
-  let s:count += 1
-  return s:count
+  let s:cnt += 1
 endfunction
 
-function! s:counter.zero() abort
-  let s:count = 0
-  return s:count
+function! s:counter.max() abort "{{{2
+  let max = len(s:input.dict[s:input.char]) - 1
+  return s:cnt == max
 endfunction
 
-let s:Keymaps = {} "{{{
+function! s:counter.Zero() abort "{{{2
+  let s:cnt = 0
+endfunction
+
+let s:Keymaps = {} "{{{1 unnecessary?
 
 if has('nvim-0.3.0')
   let s:maps.call = '<Cmd>call'
-  let s:maps.modes = [nxo]
+  let s:maps.modes = ['n', 'x', 'o']
 else
   let s:maps.call = ':<c-u>call'
-  let s:maps.modes = [no]
+  let s:maps.modes = ['n', 'o']
 endif
 
-function! s:Keymaps.override(lhs, mode) abort
+function! s:Keymaps.override(percentage, lhs, mode) abort
   " Note: keep only among_HML#succession#initialize() call it to override keymappings
-  exe a:mode .'noremap <buffer><silent><nowait>' a:lhs s:maps.call 'among_HML#succession#_succeed(' a:lhs ')<cr>'
+  exe a:mode .'noremap <buffer><silent><nowait>' a:lhs s:maps.call 'among_HML#succession#rotate(' a:percentage ',' a:lhs ')<cr>'
 endfunction
-let s:rotate = {}
 
 let s:maps.saved = {}
 function! s:Keymaps.save(lhs, mode) abort
@@ -77,39 +83,37 @@ function! s:Keymaps.save(lhs, mode) abort
   let s:maps.saved[lhs] = maparg(lhs, mode, 0, 1)
   let map = s:maps.saved[lhs]
 
+  if map == {} || map.buffer == 0
+    " Note: if <buffer>, restore the <buffer>-map after all;
+    "       if not, just unmap <buffer>.
+    let map = {}
+    return
+  endif
+
   if map.rhs =~# '<SID>'
     let map.rhs = substitute(map.rhs, '<SID>', '<SNR>'. map.sid .'_', 'g')
   endif
 
-  " Note: if <buffer>, restore the <buffer>-map after all; if not, just unmap <buffer>.
-  if map.buffer == 0
-        \ || map.rhs == {}
-    let map = {lhs : {'restore': 0} }
-    return
-  endif
-
   let args = '<buffer>'
   for arg in ['silent', 'nowait', 'expr']
-    if map[arg] == 1
+    if has_key(map, arg)
       let args .= '<'. arg .'>'
     endif
   endfor
 
-  let map[lhs] = extend(map[lhs], {
-        \ 'restore': 1,
+  call extend(map, {
         \ 'mode': mode,
         \ 'lhs': args . lhs,
-        \ },
-        \ 'force')
+        \ })
 endfunction
 
 function! s:Keymaps.restore() abort
-  " Note: keep only among_HML#succession#abort() call it to restore keymappings
+  " Note: keep only s:aborting() call it to restore keymappings
   for lhs in keys(s:maps.saved)
     let map = s:maps.saved[lhs]
     for mode in s:maps.modes
 
-      if map.restore == 0
+      if map == {}
         exe mode .'unmap <buffer>' lhs
         break
       endif
@@ -126,61 +130,78 @@ function! s:Keymaps.restore() abort
     endfor
   endfor
 endfunction
-"}}}
 
-function! s:rotate.new(lhs) abort
-  let s:rotate[a:lhs] = function('among_HML#succession#_succeed', a:lhs)
+let s:Abort = {} "{{{1
+
+function! s:Abort.done() abort
+  let s:cnt = 0
+  call s:Keymaps.restore()
 endfunction
 
-let s:char = {-> nr2char(getchar())}
-
-function! among_HML#succession#keymaps() abort
-  for lhs in keys(s:maps.combinations)
-    for mode in s:maps.modes
-      call s:Keymaps.save(lhs, mode)
-      call s:Keymaps.override(lhs, mode)
-    endfor
-  endfor
+function! s:Abort.by_input(input) abort
+  call s:Abort.done()
+  call feedkeys(a:input, 'n')
 endfunction
+
+function! s:Abort.set_augroup() abort
+  augroup AmongHMLsuccessionAbort
+    au! WinLeave,BufWinLeave,BufWinEnter * ++once call s:Abort.done()
+  augroup END
+endfunction
+"}}}1
+let s:input = {} "{{{1
+
+function! s:input.get() abort "{{{2
+  " FIXME: when no char under cursor, fails to highlight there
+  let keep_cursor = matchaddpos('Cursor', [[line('.'), col('.')]])
+  redraw
+  let input = nr2char(getchar())
+  " matchdelete() if "\<c-c>"
+  call matchdelete(keep_cursor)
+  return (input ==# "\<S-lt>")? '<': input
+endfunction
+
+function! s:input.To_jump() abort
+  let s:input.char = s:input.get()
+  if index(keys(s:input.dict), s:input.char) >= 0
+    if get(s:input, 'last', s:input.char) !=# s:input.char
+      let s:input.last = s:input.char
+      let s:cnt = 0
+    endif
+    let next = s:input.dict[s:input.char][s:cnt]
+    " FIXME: without nesting, no error on 'maxfuncdepth'
+    call s:input.Jump_and_next(next)
+  endif
+  call s:Abort.by_input(s:input.char)
+endfunction
+
+function! s:input.Jump_and_next(percentage) abort
+  call among_HML#percent(a:percentage)
+  call s:counter.Update()
+  call s:input.To_jump()
+endfunction
+"}}}1
+
+"function! among_HML#succession#keymaps(percentage) abort
+"  for lhs in keys(s:init_and_rotate)
+"    for mode in s:maps.modes
+"      call s:Keymaps.save(lhs, mode)
+"      call s:Keymaps.override(a:percentage, lhs, mode)
+"    endfor
+"  endfor
+"endfunction
 
 function! among_HML#succession#initialize(percentage) abort
   " like ';', skip to the next percentage in list
-  call among_HML#percent(percentage)
-  call s:counter.zero()
-  call among_HML#succession#keymaps()
+  let s:cnt = 0
+  call s:Abort.set_augroup()
+  call among_HML#percent(a:percentage)
+  let s:input.dict = s:origin_and_dict[a:percentage]
+  call s:input.To_jump()
 endfunction
 
-function! among_HML#succession#_succeed(lhs) abort
-  let list = s:maps.combinations[a:count]
-  let percent = list[s:counter()]
-  if s:count == len(list)
-    call s:counter.zero()
-  endif
-  let count = s:count
-  call among_HML#percent(count)
-  call counter()
-endfunction
-
-function! among_HML#succession#char2percent() abort
-  let char = s:char()
-
-  if has_key(s:maps.combinations, char)
-    call among_HML#succession#_succeed(char)
-
-  else
-    call s:counter.zero()
-    exe 'norm' char
-  endif
-endfunction
-
-function! among_HML#succession#_count_reset() abort
-  augroup AmongHMLsuccessionReset
-    au! WinLeave,BufWinLeave,BufWinEnter * ++once call s:counter.reset()
-  augroup END
-endfunction
-
-
-" restore 'cpoptions' {{{
+" restore 'cpoptions' {{{1
 let &cpo = s:save_cpo
-"}}}
+
+" modeline {{{1
 " vim: ts=2 sts=2 sw=2 et fdm=marker
