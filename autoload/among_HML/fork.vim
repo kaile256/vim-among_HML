@@ -55,7 +55,7 @@ function! s:counter.Update() abort "{{{2
   call s:counter.nest()
 endfunction
 
-function! s:counter.cnt() abort
+function! s:counter.cnt() abort "{{{2
   if !exists('s:cnt') || s:counter.max()
     let s:cnt = 0
     return
@@ -64,7 +64,7 @@ function! s:counter.cnt() abort
   let s:cnt += 1
 endfunction
 
-function! s:counter.nest() abort
+function! s:counter.nest() abort "{{{2
   if !exists('s:nest')
     let s:nest = 0
   endif
@@ -81,12 +81,12 @@ endfunction
 
 function! s:counter.max() abort "{{{2
   let max = len(s:input.dict[s:input.char]) - 1
-  return s:cnt == max
+  return s:cnt >= max
 endfunction
 
 let s:Abort = {} "{{{1
 
-function! s:Abort.done() abort
+function! s:Abort.done() abort "{{{2
   let s:cnt  = 0
   let s:nest = 0
 endfunction
@@ -114,18 +114,23 @@ function! s:Abort.reset_nested() abort
 endfunction
 let s:input = {} "{{{1
 
-function! s:input.get() abort "{{{2
+function! s:input.getchar() abort "{{{2
   " FIXME: when no char under cursor, fails to highlight there
   let keep_cursor = matchaddpos('Cursor', [[line('.'), col('.')]])
   redraw
-  let input = nr2char(getchar())
-  " matchdelete() if "\<c-c>"
+  try
+    let nr = getchar()
+  catch /^Vim:Interrupt$/
+    call matchdelete(keep_cursor)
+    return "\<c-c>"
+  endtry
+  let char = (nr ==# "\<S-lt>")? '<': nr2char(nr)
   call matchdelete(keep_cursor)
-  return (input ==# "\<S-lt>")? '<': input
+  return char
 endfunction
 
-function! s:input.To_jump() abort
-  let s:input.char = s:input.get()
+function! s:input.To_jump() abort "{{{2
+  let s:input.char = s:input.getchar()
 
   if get(s:input, 'last', s:input.char) !=# s:input.char
     let s:input.last = s:input.char
@@ -134,14 +139,14 @@ function! s:input.To_jump() abort
 
   if index(keys(s:input.dict), s:input.char) >= 0
     let next = s:input.dict[s:input.char][s:cnt]
-    " FIXME: without nesting, no error on 'maxfuncdepth'
+    " FIXME: functions' nest causes an error on 'maxfuncdepth'
     call s:input.Jump_and_next(next)
   endif
 
   call s:Abort.by_input(s:input.char)
 endfunction
 
-function! s:input.Jump_and_next(percentage) abort
+function! s:input.Jump_and_next(percentage) abort "{{{2
   call among_HML#percent(a:percentage)
   call s:counter.Update()
   call s:input.To_jump()
