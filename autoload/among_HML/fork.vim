@@ -23,12 +23,11 @@
 " }}}
 " ============================================================================
 
+if v:version < 700 | finish | endif
 " save 'cpoptions' {{{
 let s:save_cpo = &cpo
 set cpo&vim
 "}}}
-
-if get(g:, 'among_HML#fork#disable', 0) | finish | endif
 
 if has('nvim-0.3.0')
   let s:call = '<Cmd>call '
@@ -38,18 +37,17 @@ else
   let s:modes = 'n'
 endif
 
-function! among_HML#fork#initialize(beginning, combinations) abort
-  let char = matchstr(a:beginning, '\a\+')
-  let percentage = matchstr(a:beginning, '\d\+')
-  let rhs = percentage !=# '' ? s:call .'among_HML#percent('. percentage .')<cr>' : '<Nop>'
+function! among_HML#fork#init(start_key, percentage, combinations)
+  let rhs = a:percentage !=# '' ? s:call .'among_HML#percent('. a:percentage .')<cr>' : '<Nop>'
 
   try
-    call submode#enter_with('HML/fork_'. a:beginning, s:modes, 's', char, rhs)
+    call submode#enter_with('HML/fork_'. a:start_key, s:modes, 's', a:start_key, rhs)
     " Note: in operator, should jump directly to destination
-    call submode#enter_with('HML/fork_'. a:beginning, 'o', 's', char)
+    call submode#enter_with('HML/fork_'. a:start_key, 'o', 's', a:start_key)
 
-    for char in keys(a:combinations)
-      call submode#map('HML/fork_'. a:beginning, s:modes .'o', 's', char, s:call .'among_HML#percent('. a:combinations[char] .')<cr>')
+    for lhs in keys(a:combinations)
+      " Note: option-x makes user leave from the submode
+      call submode#map('HML/fork_'. a:start_key, s:modes .'o', 'sx', lhs, s:call .'among_HML#percent('. a:combinations[lhs] .')<cr>')
     endfor
   catch
     if !exists('*submode#enter_with')
