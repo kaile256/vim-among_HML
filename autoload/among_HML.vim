@@ -33,8 +33,9 @@ function! among_HML#percent(percentage)
   let &scrolloff = save_scrolloff
 endfunction
 
-" restore cpoptions {{{
+" restore cpoptions {{{1
 let &cpo = s:save_cpo
 unlet s:save_cpo
-"}}}
+
+" modeline {{{1
 " vim: ts=2 sts=2 sw=2 et fdm=marker
