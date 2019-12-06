@@ -30,16 +30,13 @@ repo = 'kaile256/vim-among_HML'
 on_func = 'among_HML#'
 ```
 
-Usage
+Examples
 -----
 
 ```vim
 " assign a percentage as you want, like below
 :call among_HML#percent(12.5) " for 1/8 height of lines
 ```
-
-#### Examples
-
 vim-among_HML defines no default keymappings;
 so you should define some keymappings, like the examples below, in your vimrc or init.vim.
 
@@ -68,7 +65,8 @@ xnoremap gK K
 xnoremap <space>J J
 ```
 
-##### Fork Feature
+#### Fork Feature
+-----------------
 With [kana/vim-submode](https://github.com/kana/vim-submode) installed, you can use fork-features
 ```vim
 let g:submode_keep_leaving_key = 1 " recommended
@@ -103,4 +101,4 @@ noremap <silent> M <Cmd>call among_HML#fork#init('M', '50', {
       \ call feedkeys('M')<cr>
 ```
 Now, you can spare your keymappings.
-For more information, please read documentation
+For more information, please read documentation.
