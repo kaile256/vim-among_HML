@@ -23,7 +23,7 @@
 " }}}
 " ============================================================================
 
-if version > 700 | finish | endif
+if !has('patch-7.4.2044') | finish | endif
 
 if exists('g:loaded_among_HML_get_half') | finish | endif
 let g:loaded_among_HML_get_half = 1
