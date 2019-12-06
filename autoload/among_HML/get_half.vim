@@ -1,4 +1,3 @@
-
 " ============================================================================
 " File: autoload/among_HML/get_half.vim
 " Author: kaile256
@@ -24,7 +23,7 @@
 " }}}
 " ============================================================================
 
-if !has('patch7.4.2044') | finish | endif
+if version > 700 | finish | endif
 
 if exists('g:loaded_among_HML_get_half') | finish | endif
 let g:loaded_among_HML_get_half = 1
@@ -34,14 +33,13 @@ let s:save_cpo = &cpo
 set cpo&vim
 "}}}
 
-function! among_HML#get_half#terminal(terminal) abort
-  " TODO: make l:before immutable; deepcopy() is no nse for str.
-  let before = winline()
+function! among_HML#get_half#to(terminal)
+  let prev = winline()
 
   call among_HML#percent(a:terminal)
-  let dest = round((winline() + before) /2.0)
+  let dest = round((winline() + prev) /2.0)
 
-  if before < winline()
+  if prev < winline()
     let go_back = 'k'
     let s:yet = {-> winline() > dest}
   else
@@ -55,9 +53,10 @@ function! among_HML#get_half#terminal(terminal) abort
   unlet s:yet
 endfunction
 
-" restore cpoptions {{{
+" restore cpoptions {{{1
 let &cpo = s:save_cpo
 unlet s:save_cpo
-"}}}
+
+" modeline {{{1
 " vim: ts=2 sts=2 sw=2 et fdm=marker
 
