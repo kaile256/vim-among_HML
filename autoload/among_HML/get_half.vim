@@ -33,7 +33,7 @@ let s:save_cpo = &cpo
 set cpo&vim
 "}}}
 
-function! among_HML#get_half#to(terminal)
+function! among_HML#get_half#to(terminal) abort
   let prev = winline()
 
   call among_HML#percent(a:terminal)
