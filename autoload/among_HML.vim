@@ -15,22 +15,18 @@ set cpo&vim
 "}}}
 
 function! among_HML#percent(percentage)
-  let save_scrolloff = &scrolloff
-  setl scrolloff=0
+  let save_so = &scrolloff
+  set scrolloff=0
 
   norm! L
   let l:dest = round(winline() * a:percentage /100.0)
 
   while winline() > l:dest
     norm! gk
-
-    if winline() == 1
-      let &scrolloff = save_scrolloff
-      return
-    endif
+    if winline() == 1 | break | endif
   endwhile
 
-  let &scrolloff = save_scrolloff
+  let &scrolloff = save_so
 endfunction
 
 " restore cpoptions {{{1
