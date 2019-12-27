@@ -109,7 +109,7 @@ If you use `neovim >= 0.3.0`, simply noremap
 noremap <silent> M <Cmd>call among_HML#fork#init('M', '50', {
       \ 'H': '0',
       \ 'K': '25',
-      \ 'J': '75',kaile256
+      \ 'J': '75',
       \ 'L': '100',
       \ })<bar>
       \ call feedkeys('M')<cr>
