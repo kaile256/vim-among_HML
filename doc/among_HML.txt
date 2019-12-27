@@ -136,36 +136,6 @@ EXAMPLES						 *among_HML-examples*
 Note: You must install kana/vim-submode(https://github.com/kana/vim-submode) to
 use among_HML#fork#init().
 
-13 patterns of lines:
->
-	noremap <silent> H <Cmd>call among_HML#fork#init('H', '0', {
-	      \ 'J': '8.333333',
-	      \ })<bar>
-	      \ call feedkeys('H')<cr>
-
-	noremap <silent> K <Cmd>call among_HML#fork#init('K', 25, {
-	      \ 'K': '16.666667',
-	      \ 'J': '33.333333',
-	      \ })<bar>
-	      \ call feedkeys('K')<cr>
-
-	noremap <silent> M <Cmd>call among_HML#fork#init('M', 50, {
-	      \ 'K': '41.666667',
-	      \ 'J': '58.333333',
-	      \ })<bar>
-	      \ call feedkeys('M')<cr>
-
-	noremap <silent> J <Cmd>call among_HML#fork#init('J', 75, {
-	      \ 'K': '66.666667',
-	      \ 'J': '83.333333',
-	      \ })<bar>
-	      \ call feedkeys('J')<cr>
-
-	noremap <silent> L <Cmd>call among_HML#fork#init('L', '100', {
-	      \ 'K': '91.666667',
-	      \ })<bar>
-	      \ call feedkeys('L')<cr>
-<
 9 patterns of lines:
 >
 	noremap <silent> H <Cmd>call among_HML#fork#init('H', '0', {
@@ -214,7 +184,36 @@ or for less mapped keys, only on H and L for instance,
 	      \ })<bar>
 	      \ call feedkeys('L')<cr>
 >
+13 patterns of lines:
+>
+	noremap <silent> H <Cmd>call among_HML#fork#init('H', '0', {
+	      \ 'J': '8.333333',
+	      \ })<bar>
+	      \ call feedkeys('H')<cr>
 
+	noremap <silent> K <Cmd>call among_HML#fork#init('K', 25, {
+	      \ 'K': '16.666667',
+	      \ 'J': '33.333333',
+	      \ })<bar>
+	      \ call feedkeys('K')<cr>
+
+	noremap <silent> M <Cmd>call among_HML#fork#init('M', 50, {
+	      \ 'K': '41.666667',
+	      \ 'J': '58.333333',
+	      \ })<bar>
+	      \ call feedkeys('M')<cr>
+
+	noremap <silent> J <Cmd>call among_HML#fork#init('J', 75, {
+	      \ 'K': '66.666667',
+	      \ 'J': '83.333333',
+	      \ })<bar>
+	      \ call feedkeys('J')<cr>
+
+	noremap <silent> L <Cmd>call among_HML#fork#init('L', '100', {
+	      \ 'K': '91.666667',
+	      \ })<bar>
+	      \ call feedkeys('L')<cr>
+<
 Note: <Cmd> is only available on neovim (v0.3.0 or more); in vim, use
 >
 	nnoremap (snip) :call among_HML#fork#init(snip)<cr>
