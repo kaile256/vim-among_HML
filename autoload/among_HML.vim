@@ -14,14 +14,14 @@ let s:save_cpo = &cpo
 set cpo&vim
 "}}}
 
-function! among_HML#percent(percentage)
+function! among_HML#jump(percentage)
   let save_so = &scrolloff
   set scrolloff=0
 
   norm! L
-  let l:dest = round(winline() * a:percentage /100.0)
+  let dest = round(winline() * a:percentage /100.0)
 
-  while winline() > l:dest
+  while winline() > dest
     norm! gk
     if winline() == 1 | break | endif
   endwhile

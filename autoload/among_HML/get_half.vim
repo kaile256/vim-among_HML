@@ -24,6 +24,7 @@
 " ============================================================================
 
 if !has('patch-7.4.2044') | finish | endif
+" patch-7.4.2044 for lamda
 
 if exists('g:loaded_among_HML_get_half') | finish | endif
 let g:loaded_among_HML_get_half = 1
@@ -36,7 +37,7 @@ set cpo&vim
 function! among_HML#get_half#to(terminal) abort
   let prev = winline()
 
-  call among_HML#percent(a:terminal)
+  call among_HML#jump(a:terminal)
   let dest = round((winline() + prev) /2.0)
 
   if prev < winline()

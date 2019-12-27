@@ -38,7 +38,7 @@ else
 endif
 
 function! among_HML#fork#init(start_key, percentage, combinations)
-  let rhs = a:percentage !=# '' ? s:call .'among_HML#percent('. a:percentage .')<cr>' : '<Nop>'
+  let rhs = a:percentage !=# '' ? s:call .'among_HML#jump('. a:percentage .')<cr>' : '<Nop>'
 
   try
     call submode#enter_with('HML/fork_'. a:start_key, s:modes, 's', a:start_key, rhs)
@@ -47,7 +47,7 @@ function! among_HML#fork#init(start_key, percentage, combinations)
 
     for lhs in keys(a:combinations)
       " Note: option-x makes user leave from the submode
-      call submode#map('HML/fork_'. a:start_key, s:modes .'o', 'sx', lhs, s:call .'among_HML#percent('. a:combinations[lhs] .')<cr>')
+      call submode#map('HML/fork_'. a:start_key, s:modes .'o', 'sx', lhs, s:call .'among_HML#jump('. a:combinations[lhs] .')<cr>')
     endfor
   catch
     if !exists('*submode#enter_with')
