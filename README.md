@@ -2,16 +2,9 @@
 
 vim-among_HML provides a set of motions, extending H/M/L motion.
 
-## Why?
-
-`H/M/L` are my favorite motions, but they are inflexible.
-Though `H/L` can also jump by `[count]`, counting lines is not so intuitive.
-vim-among_HML provides an autoload-function,
-by which we can jump more intuitively than `H/M/L`.
-
 ![among_HML#fork](https://user-images.githubusercontent.com/46470475/71517891-7b5bd000-28f3-11ea-8ee4-3a72a1888541.gif)
 
-In this demo, type `K` to 1/4 height of lines in window and `J` to 3/4.
+In demo, type `K` to 1/4 height of lines in window and `J` to 3/4.
 Addition to them, `KK` in sequence will jump 1/4 at first, and then, to 1/8;
 `KJ` to 3/8; `JK` to 5/8; `JJ` to 7/8. 
 You can copy the keymappings in doc/among_HML.txt; type `:help among_HML-example` in commandline of vim. 
