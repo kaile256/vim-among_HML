@@ -1,45 +1,64 @@
-vim-among_HML
-=============
+# vim-among_HML
 
 vim-among_HML provides a set of motions, extending H/M/L motion.
 
-Why?
-----
+## Why?
 
 `H/M/L` are my favorite motions, but they are inflexible.
 Though `H/L` can also jump by `[count]`, counting lines is not so intuitive.
-vim-among_HML provides an autoload-function, by which we can jump more intuitively than `H/M/L`.
+vim-among_HML provides an autoload-function,
+by which we can jump more intuitively than `H/M/L`.
 
-Installation
-------------
+![among_HML#fork](https://user-images.githubusercontent.com/46470475/71517891-7b5bd000-28f3-11ea-8ee4-3a72a1888541.gif)
+
+In this demo, type `K` to 1/4 height of lines in window and `J` to 3/4.
+Addition to them, `KK` in sequence will jump 1/4 at first, and then, to 1/8; `KJ` to 3/8; `JK` to 5/8; `JJ` to 7/8. You can copy the keymappings in doc/among_HML.txt. Type `:help among_HML-example` in commandline of vim. You need [kana/vim-submode](https://github.com/kana/vim-submode) for the use in sequence.
+
+## Installation
 
 Install the plugin using your favorite package manager
 
-#### For dein.vim
+### For dein.vim
+
 ```vim
 call dein#add('kaile256/vim-among_HML')
 ```
 
-Usage
------
+or if you prefer to write in toml and to load this plugin lazy, add
+
+```vim
+call dein#load_toml('foo.toml', {'lazy': 1})
+```
+
+in your vimrc and then, add
+
+```toml
+[[plugin]]
+repo = 'kaile256/vim-among_HML'
+on_func = 'among_HML#'
+```
+
+in foo.toml.
+
+## Examples
 
 ```vim
 " assign a percentage as you want, like below
-:call among_HML#percent(12.5) " for 1/8 height of lines
+:call among_HML#jump(12.5) " for 1/8 height of lines
 ```
 
-#### Examples
-
-vim-among_HML defines no default keymappings,
+vim-among_HML defines no default keymappings;
 so you should define some keymappings, like the examples below, in your vimrc or init.vim.
 
 ```vim
-" if you prefer to jump in 1/4 or 3/4 height of lines (i.e., 25% or 75% height);
-nnoremap <silent> K :<c-u>call among_HML#percent(25)<cr>
-nnoremap <silent> J :<c-u>call among_HML#percent(75)<cr>
+set scrolloff=0 " recommended (default)
 
-onoremap <silent> K :call among_HML#percent(25)<cr>
-onoremap <silent> J :call among_HML#percent(75)<cr>
+" if you prefer to jump in 1/4 or 3/4 height of lines (i.e., 25% or 75% height);
+nnoremap <silent> K :<c-u>call among_HML#jump(25)<cr>
+nnoremap <silent> J :<c-u>call among_HML#jump(75)<cr>
+
+onoremap <silent> K :call among_HML#jump(25)<cr>
+onoremap <silent> J :call among_HML#jump(75)<cr>
 
 " optional:
 " Mnemonic: Get the Keyword
@@ -50,9 +69,51 @@ nnoremap <space>J J
 
 If you use `neovim >= 0.3.0`
 ```vim
-xnoremap <silent> K <Cmd>call among_HML#percent(25)<cr>
-xnoremap <silent> J <Cmd>call among_HML#percent(75)<cr>
+xnoremap <silent> K <Cmd>call among_HML#jump(25)<cr>
+xnoremap <silent> J <Cmd>call among_HML#jump(75)<cr>
 xnoremap gK K
 xnoremap <space>J J
 ```
 
+### Fork Motion
+
+With [kana/vim-submode](https://github.com/kana/vim-submode) installed, you can jump in fork.
+
+```vim
+let g:submode_keep_leaving_key = 1 " recommended
+
+" Note: in vimrc, this lines must be loaded after kana/vim-submode is loaded
+call among_HML#fork#init('M', '50', {
+      \ 'H': '0',
+      \ 'K': '25',
+      \ 'J': '75',
+      \ 'L': '100',
+      \ })
+```
+
+For lazy load, you can also define keymaps like below
+
+```vim
+nnoremap <silent> M :call among_HML#fork#init('M', '50', {
+      \ 'H': '0',
+      \ 'K': '25',
+      \ 'J': '75',
+      \ 'L': '100',
+      \ })<bar>
+      \ call feedkeys('M')<cr>
+```
+
+If you use `neovim >= 0.3.0`, simply noremap
+
+```vim
+noremap <silent> M <Cmd>call among_HML#fork#init('M', '50', {
+      \ 'H': '0',
+      \ 'K': '25',
+      \ 'J': '75',
+      \ 'L': '100',
+      \ })<bar>
+      \ call feedkeys('M')<cr>
+```
+
+Now, you can spare your keymappings.
+For more information, please read documentation.
