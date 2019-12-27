@@ -9,6 +9,11 @@ Though `H/L` can also jump by `[count]`, counting lines is not so intuitive.
 vim-among_HML provides an autoload-function,
 by which we can jump more intuitively than `H/M/L`.
 
+![among_HML#fork](https://user-images.githubusercontent.com/46470475/71517891-7b5bd000-28f3-11ea-8ee4-3a72a1888541.gif)
+
+In this demo, type `K` to 1/4 height of lines in window and `J` to 3/4.
+Addition to them, `KK` in sequence will jump 1/4 at first, and then, to 1/8; `KJ` to 3/8; `JK` to 5/8; `JJ` to 7/8. You can copy the keymappings in doc/among_HML.txt. Type `:help among_HML-example` in commandline of vim. You need [kana/vim-submode](https://github.com/kana/vim-submode) for the use in sequence.
+
 ## Installation
 
 Install the plugin using your favorite package manager
@@ -72,7 +77,7 @@ xnoremap <space>J J
 
 ### Fork Motion
 
-With [kana/vim-submode](https://github.com/kana/vim-submode) installed, you can use fork-features
+With [kana/vim-submode](https://github.com/kana/vim-submode) installed, you can jump in fork.
 
 ```vim
 let g:submode_keep_leaving_key = 1 " recommended
@@ -104,7 +109,7 @@ If you use `neovim >= 0.3.0`, simply noremap
 noremap <silent> M <Cmd>call among_HML#fork#init('M', '50', {
       \ 'H': '0',
       \ 'K': '25',
-      \ 'J': '75',
+      \ 'J': '75',kaile256
       \ 'L': '100',
       \ })<bar>
       \ call feedkeys('M')<cr>
