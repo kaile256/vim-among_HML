@@ -1,43 +1,42 @@
 *among_HML.txt*
 *among-HML* *amongHML*
 
-Version: 1.0.2
+Version: 1.1.0
 Author: kaile256 <kaile256acc at gmail.com>
 License: MIT license
 
 ==============================================================================
-CONTENTS												*among_HML-contents*
+CONTENTS						*among_HML-contents*
 
-Introduction												|among_HML-intro|
-Usage														|among_HML-usage|
-	function												|among_HML-function|
+Introduction				|among_HML-intro|
+Usage					|among_HML-usage|
+	function				|among_HML-function|
+Examples				|among_HML-examples|
 
 ==============================================================================
-INTRODUCTION											*among_HML-intro*
+INTRODUCTION						     *among_HML-intro*
 
-among_HML provides a function to extend H/M/L.
+among_HML provides a function to extend H/M/L. Move in ratio!
 
 Latest version:
 https://github.com/kaile256/vim-among_HML
 
 ==============================================================================
-USAGE													*among_HML-usage*
+USAGE							     *among_HML-usage*
 
 ------------------------------------------------------------------------------
-FUNCTION												*among_HML-function*
+FUNCTION						  *among_HML-function*
 
-among_HML#percent({expr})					*among_HML-among_HML#percent()*
-		Move to the line equal to {expr} percentage of lines. {expr} must be a
-		|Float| or a Number.
-		The cursor will keep within the window even when {expr} is a negative
-		or more than 100.
-
+among_HML#jump({expr})				  *among_HML-among_HML#jump()*
+		Move to the line equal to {expr} percentage of lines. {expr}
+		must be a |Float| or a Number. The cursor will keep within the
+		window even when {expr} is a negative or more than 100.
 		For example,
 >
 		:call among_HML#percent(12.5) " for 1/8 height of lines
 <
-		vim-among_HML defines no default keymappings, so you should define some
-		keymappings, like below, in your vimrc or init.vim.
+		vim-among_HML defines no default keymappings, so you should
+		define some keymappings, like below, in your vimrc or init.vim.
 >
 		" if you prefer to jump in 1/4 or 3/4 height of lines
 		" (i.e., 25% or 75% height);
@@ -61,23 +60,21 @@ among_HML#percent({expr})					*among_HML-among_HML#percent()*
 		noremap <space>J J
 >
 
-among_HML#get_half#to({expr})		*among_HML-among_HML#get_half#to()*
-		Jump to the middle line between current cursor line and specified end
-		of line. The rule of argument should follow |among_HML#percent()|.
-
-		For example,
+among_HML#get_half#to({expr})		   *among_HML-among_HML#get_half#to()*
+		Jump to the middle line between current cursor line and
+		specified end of line. The rule of argument should follow
+		|among_HML#percent()|. For example,
 >
 		nnoremap <silent> H  :<c-u>call among_HML#get_half#to(0)<cr>
 		nnoremap <silent> L  :<c-u>call among_HML#get_half#to(100)<cr>
 <
 
-among_HML#fork#init({lhs}, {expr}, {dict})	*among_HML-among_HML#fork#init()*
+among_HML#fork#init({lhs}, {expr}, {dict})  *among_HML-among_HML#fork#init()*
 		Provides a submode 'HML/fork_{lhs}'. This function depends on
 		kana/vim-submode(https://github.com/kana/vim-submode).
-		{expr} should be a quoted |Float|, which is regarded as a first percentage
-		to jump when entering the submode.
+		{expr} should be a quoted |Float|, which is regarded as a first
+		percentage to jump when entering the submode.
 		You can leave {expr} empty not to jump before forked keymaps.
-
 		For example,
 >
 		let g:submode_keep_leaving_key = 1 " recommended
@@ -95,7 +92,8 @@ among_HML#fork#init({lhs}, {expr}, {dict})	*among_HML-among_HML#fork#init()*
 				\ })<bar>
 				\ call feedkeys('M')<cr>
 <
-		If you prefer not to jump at first, leave the second argument empty.
+		If you prefer not to jump at first, leave the second argument
+		empty.
 >
 		noremap <silent> M <Cmd>call among_HML#fork#init('M', '', {
 				\ 'K': '25',
@@ -111,7 +109,8 @@ among_HML#fork#init({lhs}, {expr}, {dict})	*among_HML-among_HML#fork#init()*
 				\ })<bar>
 				\ call feedkeys('M')<cr>
 <
-		This is a table to compare some ratio with percentage for convenience
+		This is a table to compare some ratio with percentage for
+		convenience
 
 		| ratio | percentage |
 		| ===== | ========== |
@@ -131,6 +130,93 @@ among_HML#fork#init({lhs}, {expr}, {dict})	*among_HML-among_HML#fork#init()*
 		| 7/8   | 87.5       |
 		| 1     | 100        |
 
+==============================================================================
+EXAMPLES						 *among_HML-examples*
+
+13 patterns of lines:
+>
+	noremap <silent> H <Cmd>call among_HML#fork#init('H', '0', {
+	      \ 'J': '8.333333',
+	      \ })<bar>
+	      \ call feedkeys('H')<cr>
+
+	noremap <silent> K <Cmd>call among_HML#fork#init('K', 25, {
+	      \ 'K': '16.666667',
+	      \ 'J': '33.333333',
+	      \ })<bar>
+	      \ call feedkeys('K')<cr>
+
+	noremap <silent> M <Cmd>call among_HML#fork#init('M', 50, {
+	      \ 'K': '41.666667',
+	      \ 'J': '58.333333',
+	      \ })<bar>
+	      \ call feedkeys('M')<cr>
+
+	noremap <silent> J <Cmd>call among_HML#fork#init('J', 75, {
+	      \ 'K': '66.666667',
+	      \ 'J': '83.333333',
+	      \ })<bar>
+	      \ call feedkeys('J')<cr>
+
+	noremap <silent> L <Cmd>call among_HML#fork#init('L', '100', {
+	      \ 'K': '91.666667',
+	      \ })<bar>
+	      \ call feedkeys('L')<cr>
+<
+9 patterns of lines:
+>
+	noremap <silent> H <Cmd>call among_HML#fork#init('H', '0', {
+	\ 'J': '12.5',
+	\ })<bar>
+	\ call feedkeys('H')<cr>
+
+	noremap <silent> K <Cmd>call among_HML#fork#init('K', 25, {
+	\ 'K': '12.5',
+	\ 'J': '37.5',
+	\ })<bar>
+	\ call feedkeys('K')<cr>
+
+	noremap <silent> M <Cmd>call among_HML#fork#init('M', 50, {
+	\ 'K': '37.5',
+	\ 'J': '67.5',
+	\ })<bar>
+	\ call feedkeys('M')<cr>
+
+	noremap <silent> J <Cmd>call among_HML#fork#init('J', 75, {
+	\ 'K': '62.5',
+	\ 'J': '87.5',
+	\ })<bar>
+	\ call feedkeys('J')<cr>
+
+	noremap <silent> L <Cmd>call among_HML#fork#init('L', '100', {
+	\ 'K': '87.5',
+	\ })<bar>
+	\ call feedkeys('L')<cr>
+<
+or for less mapped keys, only on H and L for instance,
+>
+	noremap <silent> H <Cmd>call among_HML#fork#init('H', '25', {
+	      \ 'H': '0',
+	      \ 'K': '12.5',
+	      \ 'M': '50',
+	      \ 'J': '37.5',
+	      \ })<bar>
+	      \ call feedkeys('H')<cr>
+
+	noremap <silent> L <Cmd>call among_HML#fork#init('L', '75', {
+	      \ 'K': '62.5',
+	      \ 'J': '87.5',
+	      \ 'M': '50',
+	      \ 'L': '100',
+	      \ })<bar>
+	      \ call feedkeys('L')<cr>
+>
+
+Note: <Cmd> is only available on neovim (v0.3.0 or more); in vim, use
+>
+	nnoremap (snip) :call among_HML#fork#init(snip)<cr>
+<
+instead; all the functions shall be no use in `xmap` in vim.
 
 ==============================================================================
-vim:tw=78:ts=4:sts=4:sw=4:ft=help:norl:noet:fen
+vim:tw=78:ts=8:sts=8:sw=8:ft=help:norl:noet:fen
