@@ -22,6 +22,9 @@ function! among_HML#jump(percentage)
 
   norm! L
   let dest = round(winline() * a:percentage /100.0)
+  if a:percentage <= 50
+    norm! M
+  endif
 
   while winline() > dest
     norm! gk
