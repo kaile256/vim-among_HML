@@ -15,18 +15,24 @@ set cpo&vim
 "}}}
 
 function! among_HML#jump(percentage)
-  let save_so = &scrolloff
+  let save_scrolloff = &scrolloff
   set scrolloff=0
+  let save_foldopen = &foldopen
+  set foldopen=
 
   norm! L
   let dest = round(winline() * a:percentage /100.0)
+  if a:percentage <= 50
+    norm! M
+  endif
 
   while winline() > dest
     norm! gk
     if winline() == 1 | break | endif
   endwhile
 
-  let &scrolloff = save_so
+  let &scrolloff = save_scrolloff
+  let &foldopen = save_foldopen
 endfunction
 
 " restore cpoptions {{{1
