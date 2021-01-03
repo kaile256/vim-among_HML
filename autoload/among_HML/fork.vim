@@ -29,7 +29,7 @@ let s:save_cpo = &cpo
 set cpo&vim
 "}}}
 
-if has('nvim-0.3.0')
+if has('nvim-0.3.0') || has('patch-8.2.1978')
   let s:call = '<Cmd>call '
   let s:modes = 'nx'
 else
