@@ -59,7 +59,6 @@ among_HML#jump({expr})				  *among_HML-among_HML#jump()*
 		noremap gK K
 		noremap <space>J J
 >
-
 among_HML#get_half#to({expr})		   *among_HML-among_HML#get_half#to()*
 		Jump to the middle line between current cursor line and
 		specified end of line. The rule of argument should follow
