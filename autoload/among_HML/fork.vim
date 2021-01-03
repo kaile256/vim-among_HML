@@ -38,7 +38,7 @@ function! among_HML#fork#init(start_key, percentage, combinations)
     let modes = 'n'
   endif
 
-  let rhs = a:percentage !=# '' ? call .'among_HML#jump('. a:percentage .')<cr>' : '<Nop>'
+  let rhs = call .'among_HML#jump('. a:percentage .')<cr>'
 
   try
     call submode#enter_with('HML/fork_'. a:start_key, modes, 's', a:start_key, rhs)
