@@ -52,7 +52,8 @@ among_HML#jump({expr})				  *among_HML-among_HML#jump()*
 		" Mnemonic: <space>-leaving Join
 		nnoremap <space>J J
 <
-		If you use `neovim >= 0.3.0`,
+		When `has('nvim-0.3.0')` returns `1`, you can define keymappings
+		with `<Cmd>` as below:
 >
 		noremap <silent> K <Cmd>call among_HML#jump(25)<cr>
 		noremap <silent> J <Cmd>call among_HML#jump(75)<cr>
