@@ -29,25 +29,25 @@ let s:save_cpo = &cpo
 set cpo&vim
 "}}}
 
-if has('nvim-0.3.0') || has('patch-8.2.1978')
-  let s:call = '<Cmd>call '
-  let s:modes = 'nx'
-else
-  let s:call = ':<c-u>call '
-  let s:modes = 'n'
-endif
-
 function! among_HML#fork#init(start_key, percentage, combinations)
-  let rhs = a:percentage !=# '' ? s:call .'among_HML#jump('. a:percentage .')<cr>' : '<Nop>'
+  if has('nvim-0.3.0') || has('patch-8.2.1978')
+    let call = '<Cmd>call '
+    let modes = 'nx'
+  else
+    let call = ':<c-u>call '
+    let modes = 'n'
+  endif
+
+  let rhs = call .'among_HML#jump('. a:percentage .')<cr>'
 
   try
-    call submode#enter_with('HML/fork_'. a:start_key, s:modes, 's', a:start_key, rhs)
+    call submode#enter_with('HML/fork_'. a:start_key, modes, 's', a:start_key, rhs)
     " Note: in operator, should jump directly to destination
     call submode#enter_with('HML/fork_'. a:start_key, 'o', 's', a:start_key)
 
     for lhs in keys(a:combinations)
       " Note: option-x makes user leave from the submode
-      call submode#map('HML/fork_'. a:start_key, s:modes .'o', 'sx', lhs, s:call .'among_HML#jump('. a:combinations[lhs] .')<cr>')
+      call submode#map('HML/fork_'. a:start_key, modes .'o', 'sx', lhs, call .'among_HML#jump('. a:combinations[lhs] .')<cr>')
     endfor
   catch
     if !exists('*submode#enter_with')
