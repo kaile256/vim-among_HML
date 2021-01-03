@@ -19,7 +19,11 @@ function! among_HML#jump(percentage)
   set scrolloff=0
 
   norm! L
-  let dest = round(winline() * a:percentage /100.0)
+  let dest = round(winline() * a:percentage / 100.0)
+
+  if a:percentage <= 50
+    norm! M
+  endif
 
   while winline() > dest
     norm! gk
