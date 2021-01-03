@@ -69,13 +69,14 @@ nnoremap gK K
 nnoremap <space>J J
 ```
 
-If you use `neovim >= 0.3.0`
+When either `has('nvim-0.3.0')` or `has('patch-8.2.1978')` returns `1`,
+you can define keymappings at once with `<Cmd>` as below:
 
 ```vim
-xnoremap <silent> K <Cmd>call among_HML#jump(25)<cr>
-xnoremap <silent> J <Cmd>call among_HML#jump(75)<cr>
-xnoremap gK K
-xnoremap <space>J J
+noremap <silent> K <Cmd>call among_HML#jump(25)<cr>
+noremap <silent> J <Cmd>call among_HML#jump(75)<cr>
+nnoremap gK K
+nnoremap <space>J J
 ```
 
 ### Fork Motion
@@ -107,7 +108,8 @@ nnoremap <silent> M :call among_HML#fork#init('M', '50', {
       \ call feedkeys('M')<cr>
 ```
 
-If you use `neovim >= 0.3.0`, simply noremap
+When either `has('nvim-0.3.0')` or `has('patch-8.2.1978')` returns `1`,
+you can define keymappings at once with `<Cmd>` as below:
 
 ```vim
 noremap <silent> M <Cmd>call among_HML#fork#init('M', '50', {
