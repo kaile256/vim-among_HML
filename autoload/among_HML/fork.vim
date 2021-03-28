@@ -29,31 +29,46 @@ let s:save_cpo = &cpo
 set cpo&vim
 "}}}
 
-function! among_HML#fork#init(start_key, percentage, combinations)
+function! s:define_submode(start_key, percentage, combinations)
   if has('nvim-0.3.0') || has('patch-8.2.1978')
     let call = '<Cmd>call '
-    let modes = 'nx'
+    let modes = 'nxo'
   else
     let call = ':<c-u>call '
-    let modes = 'n'
+    let modes = 'no'
   endif
 
   let rhs = call .'among_HML#jump('. a:percentage .')<cr>'
 
   try
-    call submode#enter_with('HML/fork_'. a:start_key, modes, 's', a:start_key, rhs)
-    " Note: in operator, should jump directly to destination
-    call submode#enter_with('HML/fork_'. a:start_key, 'o', 's', a:start_key)
-
-    for lhs in keys(a:combinations)
-      " Note: option-x makes user leave from the submode
-      call submode#map('HML/fork_'. a:start_key, modes .'o', 'sx', lhs, call .'among_HML#jump('. a:combinations[lhs] .')<cr>')
+    let mode_name = 'HML/fork_'. a:start_key
+    for l:mode in split(modes, '\zs')
+      let maparg = maparg(a:start_key, l:mode)
+      if maparg ==# '' || maparg =~# 'among_HML#fork#init_jump'
+        call submode#enter_with(mode_name, l:mode, 's', a:start_key, rhs)
+        for lhs in keys(a:combinations)
+          " Note: option-x makes user leave from the submode
+          let sub_rhs = call .'among_HML#jump('. a:combinations[lhs] .')<CR>'
+          call submode#map(mode_name, l:mode, 'sx', lhs, sub_rhs)
+        endfor
+      endif
     endfor
   catch
     if !exists('*submode#enter_with')
       echoerr v:exception .': this function depends on kana/vim-submode, please install it and check your runtime path'
     endif
   endtry
+endfunction
+
+function! among_HML#fork#init_jump(start_key, perc, combi) abort
+  call s:define_submode(a:start_key, a:perc, a:combi)
+  call feedkeys(a:start_key, 'm')
+endfunction
+
+function! among_HML#fork#init(start_key, perc, combi) abort
+  call s:define_submode(a:start_key, a:perc, a:combi)
+  echoerr '[among_HML/fork] among_HML#fork#init() is deprecated;'
+        \ 'use among_HML#fork#init_jump() instead'
 endfunction
 
 " restore 'cpoptions' {{{1
