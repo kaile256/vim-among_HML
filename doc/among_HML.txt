@@ -68,44 +68,36 @@ among_HML#get_half#to({expr})		   *among_HML-among_HML#get_half#to()*
 		nnoremap <silent> H  :<c-u>call among_HML#get_half#to(0)<cr>
 		nnoremap <silent> L  :<c-u>call among_HML#get_half#to(100)<cr>
 <
-
-among_HML#fork#init({lhs}, {expr}, {dict})  *among_HML-among_HML#fork#init()*
-		Provides a submode 'HML/fork_{lhs}'. This function depends on
-		kana/vim-submode(https://github.com/kana/vim-submode).
-		{expr} should be a quoted |Float|, which is regarded as a first
-		percentage to jump when entering the submode.
-		You can leave {expr} empty not to jump before forked keymaps.
-		For example,
->
-		let g:submode_keep_leaving_key = 1 " recommended
-
-		:call among_HML#fork#init('M', '50', {
-				\ 'K': '25',
-				\ 'J': '75',
-				\ })
-<
-		For lazy load, you also have |among_HML#fork#init_jump()|.
+among_HML#fork#init()                                 *among_HML#fork#init()*
+		Deprecated. Use |among_HML#fork#init_jump()| instead.
 
 				       *among_HML-among_HML#fork#init_jump()*
 among_HML#fork#init_jump({lhs}, {expr}, {dict})
-		A wrapper function of |among_HML#fork#init()|. Define a submode
-		and then invoke it. This function is supposed to be used in
-		mappings.
+		Depends on
+		kana/vim-submode(https://github.com/kana/vim-submode).
+
+		Defines a submode 'HML/fork_{lhs}' and then invoke it
+		because this function is supposed to be used in mappings.
 >
+		let g:submode_keep_leaving_key = 1 " recommended
+
 		noremap <silent> M <Cmd>call among_HML#fork#init_jump(
 				\ 'M', '50', {
 				\ 'K': '25',
 				\ 'J': '75',
 				\ })<CR>
 <
-		If you prefer not to jump at first, leave the second argument
-		empty.
+		{expr} should be a quoted |Float|, which is regarded as a first
+		percentage to jump when entering the submode. If you prefer
+		not to jump until the second input, set an empty string to the
+		second argument.
 >
 		noremap <silent> M <Cmd>call among_HML#fork#init_jump(
-				\ 'M', '', {
-				\ 'K': '25',
-				\ 'J': '75',
-				\ })<CR>
+			\ 'M', '', {
+			\ 'K': '25',
+			\ 'J': '75',
+			\ })<CR>
+<
 
 For convenience, here are some ratio with percentage in the table below:
 
