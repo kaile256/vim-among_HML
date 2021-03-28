@@ -21,25 +21,19 @@ Install the plugin using your favorite package manager
 
 ### For dein.vim
 
-```vim
-call dein#add('kaile256/vim-among_HML')
-```
-
-or if you prefer to write in toml and to load this plugin lazy, add
-
-```vim
-call dein#load_toml('foo.toml', {'lazy': 1})
-```
-
-in your vimrc and then, add
+Install the plugin using your favorite package manager.
+This is a sample configuration in TOML format
+for [Dein](https://github.com/Shougo/dein.vim) users:
 
 ```toml
 [[plugin]]
 repo = 'kaile256/vim-among_HML'
-on_func = 'among_HML#'
+lazy = 1
+on_func = ['among_HML#']
+hook_add = '''
+" Write your configuration referring to the examples below.
+'''
 ```
-
-in foo.toml.
 
 ## Examples
 
