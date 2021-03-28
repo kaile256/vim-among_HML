@@ -55,28 +55,17 @@ in your vimrc or init.vim.
 ```vim
 set scrolloff=0 " recommended (default)
 
-" if you prefer to jump in 1/4 or 3/4 height of lines (i.e., 25% or 75% height);
-nnoremap <silent> K :<c-u>call among_HML#jump(25)<cr>
-nnoremap <silent> J :<c-u>call among_HML#jump(75)<cr>
-
-onoremap <silent> K :call among_HML#jump(25)<cr>
-onoremap <silent> J :call among_HML#jump(75)<cr>
-
-" optional:
-" Mnemonic: Get the Keyword
-nnoremap gK K
-" Mnemonic: <space>-leaving Join
-nnoremap <space>J J
-```
-
-When either `has('nvim-0.3.0')` or `has('patch-8.2.1978')` returns `1`,
-you can define keymappings at once with `<Cmd>` as below:
-
-```vim
+" Jump in 1/4 or 3/4 height of lines (i.e., 25% or 75% height);
 noremap <silent> K <Cmd>call among_HML#jump(25)<cr>
 noremap <silent> J <Cmd>call among_HML#jump(75)<cr>
+
+" Optional mappings with mnemonics:
+" Get the Keyword
 nnoremap gK K
+xnoremap gK K
+" <Space>-leaving Join in contrast to the default `gJ`
 nnoremap <space>J J
+xnoremap <space>J J
 ```
 
 ### Fork Motion
