@@ -84,51 +84,48 @@ among_HML#fork#init({lhs}, {expr}, {dict})  *among_HML-among_HML#fork#init()*
 				\ 'J': '75',
 				\ })
 <
-		For lazy load, you can also defines keymaps like below:
+		For lazy load, you also have |among_HML#fork#init_jump()|.
+
+				       *among_HML-among_HML#fork#init_jump()*
+among_HML#fork#init_jump({lhs}, {expr}, {dict})
+		A wrapper function of |among_HML#fork#init()|. Define a submode
+		and then invoke it. This function is supposed to be used in
+		mappings.
 >
-		noremap <silent> M <Cmd>call among_HML#fork#init('M', '50', {
+		noremap <silent> M <Cmd>call among_HML#fork#init_jump(
+				\ 'M', '50', {
 				\ 'K': '25',
 				\ 'J': '75',
-				\ })<bar>
-				\ call feedkeys('M')<cr>
+				\ })<CR>
 <
 		If you prefer not to jump at first, leave the second argument
 		empty.
 >
-		noremap <silent> M <Cmd>call among_HML#fork#init('M', '', {
+		noremap <silent> M <Cmd>call among_HML#fork#init_jump(
+				\ 'M', '', {
 				\ 'K': '25',
 				\ 'J': '75',
-				\ })<bar>
-				\ call feedkeys('M')<cr>
-<
-		If you use `neovim >= 0.3.0`,
->
-		noremap <silent> M <Cmd>call among_HML#fork#init('M', '50', {
-				\ 'K': '25',
-				\ 'J': '75',
-				\ })<bar>
-				\ call feedkeys('M')<cr>
-<
-		This is a table to compare some ratio with percentage for
-		convenience
+				\ })<CR>
 
-		| ratio | percentage |
-		| ===== | ========== |
-		| 0     | 0          |
-		| 1/8   | 12.5       |
-		| 1/6   | 16.666667  |
-		| 1/4   | 25         |
-		| 1/3   | 33.333333  |
-		| 3/8   | 37.5       |
-		| ----- | ---------- |
-		| 1/2   | 50         |
-		| ----- | ---------- |
-		| 5/8   | 62.5       |
-		| 2/3   | 66.666667  |
-		| 3/4   | 75         |
-		| 5/6   | 83.333333  |
-		| 7/8   | 87.5       |
-		| 1     | 100        |
+For convenience, here are some ratio with percentage in the table below:
+
+	| ratio | percentage |
+	| ===== | ========== |
+	| 0     | 0          |
+	| 1/8   | 12.5       |
+	| 1/6   | 16.666667  |
+	| 1/4   | 25         |
+	| 1/3   | 33.333333  |
+	| 3/8   | 37.5       |
+	| ----- | ---------- |
+	| 1/2   | 50         |
+	| ----- | ---------- |
+	| 5/8   | 62.5       |
+	| 2/3   | 66.666667  |
+	| 3/4   | 75         |
+	| 5/6   | 83.333333  |
+	| 7/8   | 87.5       |
+	| 1     | 100        |
 
 ==============================================================================
 EXAMPLES						 *among_HML-examples*
