@@ -87,38 +87,15 @@ you can jump in fork.
 ```vim
 let g:submode_keep_leaving_key = 1 " recommended
 
-" Note: in vimrc, this lines must be loaded after kana/vim-submode is loaded
-call among_HML#fork#init('M', '50', {
+noremap <silent> M <Cmd>call among_HML#fork#init_jump(
+      \ 'M', '50', {
       \ 'H': '0',
       \ 'K': '25',
       \ 'J': '75',
       \ 'L': '100',
-      \ })
-```
-
-For lazy load, you can also define keymaps like below
-
-```vim
-nnoremap <silent> M :call among_HML#fork#init('M', '50', {
-      \ 'H': '0',
-      \ 'K': '25',
-      \ 'J': '75',
-      \ 'L': '100',
-      \ })<bar>
-      \ call feedkeys('M')<cr>
-```
-
-When either `has('nvim-0.3.0')` or `has('patch-8.2.1978')` returns `1`,
-you can define keymappings at once with `<Cmd>` as below:
-
-```vim
-noremap <silent> M <Cmd>call among_HML#fork#init('M', '50', {
-      \ 'H': '0',
-      \ 'K': '25',
-      \ 'J': '75',
-      \ 'L': '100',
-      \ })<bar>
-      \ call feedkeys('M')<cr>
+      \ })<CR>
+" Fork mappings are usually annoying in Operator-pending mode.
+ounmap M
 ```
 
 Now, you can spare your keymappings.
