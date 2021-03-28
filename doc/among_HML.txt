@@ -136,69 +136,81 @@ You must install kana/vim-submode(https://github.com/kana/vim-submode) to use
 
 9 patterns of lines:
 >
-	noremap <silent> H <Cmd>call among_HML#fork#init_jump('H', '0', {
-	\ 'J': '12.5',
-	\ })<CR>
+	noremap <silent> H <Cmd>call among_HML#fork#init_jump(
+		\ 'H', '0', {
+		\ 'J': '12.5',
+		\ })<CR>
 
-	noremap <silent> K <Cmd>call among_HML#fork#init_jump('K', 25, {
-	\ 'K': '12.5',
-	\ 'J': '37.5',
-	\ })<CR>
+	noremap <silent> K <Cmd>call among_HML#fork#init_jump(
+		\ 'K', 25, {
+		\ 'K': '12.5',
+		\ 'J': '37.5',
+		\ })<CR>
 
-	noremap <silent> M <Cmd>call among_HML#fork#init_jump('M', 50, {
-	\ 'K': '37.5',
-	\ 'J': '67.5',
-	\ })<CR>
+	noremap <silent> M <Cmd>call among_HML#fork#init_jump(
+		\ 'M', 50, {
+		\ 'K': '37.5',
+		\ 'J': '67.5',
+		\ })<CR>
 
-	noremap <silent> J <Cmd>call among_HML#fork#init_jump('J', 75, {
-	\ 'K': '62.5',
-	\ 'J': '87.5',
-	\ })<CR>
+	noremap <silent> J <Cmd>call among_HML#fork#init_jump(
+		\ 'J', 75, {
+		\ 'K': '62.5',
+		\ 'J': '87.5',
+		\ })<CR>
 
-	noremap <silent> L <Cmd>call among_HML#fork#init_jump('L', '100', {
-	\ 'K': '87.5',
-	\ })<CR>
+	noremap <silent> L <Cmd>call among_HML#fork#init_jump(
+		\ 'L', '100', {
+		\ 'K': '87.5',
+		\ })<CR>
 <
 or for less mapped keys, only on H and L for instance,
 >
-	noremap <silent> H <Cmd>call among_HML#fork#init_jump('H', '25', {
-	      \ 'H': '0',
-	      \ 'K': '12.5',
-	      \ 'M': '50',
-	      \ 'J': '37.5',
-	      \ })<CR>
+	noremap <silent> H <Cmd>call among_HML#fork#init_jump(
+		\ 'H', '25', {
+		\ 'H': '0',
+		\ 'K': '12.5',
+		\ 'M': '50',
+		\ 'J': '37.5',
+		\ })<CR>
 
-	noremap <silent> L <Cmd>call among_HML#fork#init_jump('L', '75', {
-	      \ 'K': '62.5',
-	      \ 'J': '87.5',
-	      \ 'M': '50',
-	      \ 'L': '100',
-	      \ })<CR>
+	noremap <silent> L <Cmd>call among_HML#fork#init_jump(
+		\ 'L', '75', {
+		\ 'K': '62.5',
+		\ 'J': '87.5',
+		\ 'M': '50',
+		\ 'L': '100',
+		\ })<CR>
 >
 13 patterns of lines:
 >
-	noremap <silent> H <Cmd>call among_HML#fork#init_jump('H', '0', {
-	      \ 'J': '8.333333',
-	      \ })<CR>
+	noremap <silent> H <Cmd>call among_HML#fork#init_jump(
+		\ 'H', '0', {
+		\ 'J': '8.333333',
+		\ })<CR>
 
-	noremap <silent> K <Cmd>call among_HML#fork#init_jump('K', 25, {
-	      \ 'K': '16.666667',
-	      \ 'J': '33.333333',
-	      \ })<CR>
+	noremap <silent> K <Cmd>call among_HML#fork#init_jump(
+		\ 'K', 25, {
+		\ 'K': '16.666667',
+		\ 'J': '33.333333',
+		\ })<CR>
 
-	noremap <silent> M <Cmd>call among_HML#fork#init_jump('M', 50, {
-	      \ 'K': '41.666667',
-	      \ 'J': '58.333333',
-	      \ })<CR>
+	noremap <silent> M <Cmd>call among_HML#fork#init_jump(
+		\ 'M', 50, {
+		\ 'K': '41.666667',
+		\ 'J': '58.333333',
+		\ })<CR>
 
-	noremap <silent> J <Cmd>call among_HML#fork#init_jump('J', 75, {
-	      \ 'K': '66.666667',
-	      \ 'J': '83.333333',
-	      \ })<CR>
+	noremap <silent> J <Cmd>call among_HML#fork#init_jump(
+		\ 'J', 75, {
+		\ 'K': '66.666667',
+		\ 'J': '83.333333',
+		\ })<CR>
 
-	noremap <silent> L <Cmd>call among_HML#fork#init_jump('L', '100', {
-	      \ 'K': '91.666667',
-	      \ })<CR>
+	noremap <silent> L <Cmd>call among_HML#fork#init_jump( a
+		\ 'L', '100', {
+		\ 'K': '91.666667',
+		\ })<CR>
 <
 Note:
 <Cmd> is only available on neovim v0.3.0 or more, or vim v8.2.1978 or more,
