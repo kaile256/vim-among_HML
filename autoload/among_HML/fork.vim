@@ -67,6 +67,8 @@ endfunction
 
 function! among_HML#fork#init(start_key, perc, combi) abort
   call s:define_submode(a:start_key, a:perc, a:combi)
+  echoerr '[among_HML/fork] among_HML#fork#init() is deprecated;'
+        \ 'use among_HML#fork#init_jump() instead'
 endfunction
 
 " restore 'cpoptions' {{{1
