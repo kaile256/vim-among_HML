@@ -29,7 +29,7 @@ let s:save_cpo = &cpo
 set cpo&vim
 "}}}
 
-function! among_HML#fork#init(start_key, percentage, combinations)
+function! s:define_submode(start_key, percentage, combinations)
   if has('nvim-0.3.0') || has('patch-8.2.1978')
     let call = '<Cmd>call '
     let modes = 'nx'
@@ -54,6 +54,15 @@ function! among_HML#fork#init(start_key, percentage, combinations)
       echoerr v:exception .': this function depends on kana/vim-submode, please install it and check your runtime path'
     endif
   endtry
+endfunction
+
+function! among_HML#fork#init_jump(start_key, perc, combi) abort
+  call s:define_submode(a:start_key, a:perc, a:combi)
+  call feedkeys(a:start_key, 'm')
+endfunction
+
+function! among_HML#fork#init(start_key, perc, combi) abort
+  call s:define_submode(a:start_key, a:perc, a:combi)
 endfunction
 
 " restore 'cpoptions' {{{1
