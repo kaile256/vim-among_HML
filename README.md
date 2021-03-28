@@ -88,4 +88,7 @@ ounmap M
 ```
 
 Now, you can spare your keymappings.
-For more information, please read documentation.
+
+For more examples and informations, please read documentation
+([online](https://github.com/kaile256/vim-among_HML/blob/master/doc/among_HML.txt),
+or `:h among_HML` in your Vim/Neovim)
